@@ -1,0 +1,13 @@
+
+table {
+    background-color: #6b8ecb;
+    border: 1px solid white;
+    width: 100%;
+}
+
+td {
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 3em;
+}

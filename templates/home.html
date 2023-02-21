@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{%block title%} Bogggle {% endblock %}
+
+{%block content%} 
+
+    <h1 class="container p-4 my-4 text-center text-bg-primary">BOGGLE</h1>
+    <div class="container p-0 bg-gradient">
+        <div class="row">
+            <div class="col-6">
+                <table class="table-bordered">
+
+                {% for row in board %}
+                    <tr>
+                    {% for letter in row %}
+                        <td>{{letter}}</td>
+                    {% endfor %}    
+                    </tr>
+                {% endfor %}
+
+                </table>
+            </div>
+            <div class="col-6 d-flex align-items-center">
+                <form>
+                    <div>
+                        <label for="guess" class="fs-4">Enter your word here: </label>
+                        <input type="text" size=25 id="guess">
+                        <button type="Submit" id="boggle-button">Submit</button>
+                        <p class="mt-4 fs-4 ">Total Score:</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
