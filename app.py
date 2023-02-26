@@ -7,24 +7,24 @@ app.config['SECRET_KEY'] = "wow-a-secret"
 debug = DebugToolbarExtension(app)
 
 boggle_game = Boggle()
-board = boggle_game.make_board()
 
 @app.route("/")
 def boggle_start():
     """ home page with boggle board on it"""
 
-    if session['current-board'] == None:
-        session['current-board'] = board
-    else:
-        board = session['current-board']
+    board = boggle_game.make_board()
+    session['current-board'] = board
 
-    if session['games-played'] == None:
+    if session.get('games-played') == None:
         session['games-played'] = 0
     
-    if session['high-score'] == None:
+    if session.get('high-score') == None:
         session['high-score'] = 0
     
-    return render_template("home.html", board = board)
+    highscore = session.get('high-score')
+    games_played = session.get('games-played')
+
+    return render_template("home.html", board = board, highscore = highscore, games_played = games_played)
 
 @app.route("/check", methods=['POST'])
 def check_word():
@@ -41,18 +41,18 @@ def check_word():
 
 @app.route("/newgame", methods=['POST'])
 def new_game():
-    """ checks the high-score, incrememnts number of games played, and makes a new board"""
+    """ checks the high-score, incrememnts number of games played"""
     
     data = request.get_json()
     score = data['score']
     if score > session['high-score']:
         session['high-score'] = score
-    
+
     games = session['games-played']
     games += 1
     session['games-played'] = games
 
-    board = boggle_game.make_board()
-    session['current-board'] = board
-
-    return redirect("/")
+    high_score = session["high-score"]
+    games_played = session["games-played"]
+ 
+    return jsonify({"highscore": high_score, "games_played": games_played})

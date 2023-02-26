@@ -1,7 +1,13 @@
 
+
+// I shouldn't be putting "let" variables up here like this
+// I should be creating these inside the functions
+// The only thing up here should be constants
+
 let totalScore = 0
 let wordsPlayed = 0
-let gameStatus = ""
+
+timer()
 
 // how to toggle classes
 // how to detect the game is over if I include timer
@@ -22,7 +28,7 @@ $("#boggle-button").on("click", async function(event) {
       $('#word-status').addClass('text-success')
       $('#word-status').text(`${guessedWord} is a valid word!`)
       totalScore = totalScore + guessedWord.length
-      $('#total-score').text("Total Score: " + totalScore.toString())
+      $('#score').text(" " + totalScore.toString())
     }
     
     if (wordStatus === "not-word") {
@@ -41,8 +47,24 @@ $("#boggle-button").on("click", async function(event) {
 
   });
 
+$("#reset-button").on("click", async function(event){
+
+  let score = parseInt($('#score').text().trim())
+  if(!score) {score = 0}
+  console.log(score)
+  let result = await newGame(score)
+  console.log(result)
+  location.reload()
+})
+
 async function getWord(word) {
   const response = await axios.post('http://127.0.0.1:5000/check', {word: word})
+  // console.log(response)
+  return response
+  }
+
+async function newGame(score) {
+  const response = await axios.post('http://127.0.0.1:5000/newgame', {score: score})
   // console.log(response)
   return response
   }
@@ -50,6 +72,7 @@ async function getWord(word) {
 function timer() {
 
   $("<div class='container'><h3>Countdown: <span id='countdown'></span></h2></div>").appendTo('body')
+  $("<div class='container'><button type='Submit' id='reset-button'>New Game</button>").appendTo('body')
 
   let setTimer = new Date().getTime() + 60000;
   let x = setInterval(function () {
