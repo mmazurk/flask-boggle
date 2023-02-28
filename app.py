@@ -6,15 +6,19 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "wow-a-secret"
 debug = DebugToolbarExtension(app)
 
-boggle_game = Boggle()
+
 
 @app.route("/")
 def boggle_start():
     """ home page with boggle board on it"""
 
+    boggle_game = Boggle()
     board = boggle_game.make_board()
     session['current-board'] = board
 
+    # We can keep in the front end; we don't need to save it into a session
+    # We can also use a database to get the board id
+    #   
     if session.get('games-played') == None:
         session['games-played'] = 0
     
@@ -30,6 +34,10 @@ def boggle_start():
 def check_word():
     """ checks to see if the user provided a valid word that is also on the board"""
     
+    # If you had a database, you would send the board id from the front end to the back end
+    # In the back end you would get the board from a database using the board id
+    
+    boggle_game = Boggle()
     board = session['current-board']
     data = request.get_json()
     word_to_check = data['word'].strip().lower()

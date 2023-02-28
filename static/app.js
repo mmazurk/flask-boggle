@@ -4,6 +4,10 @@
 // I should be creating these inside the functions
 // The only thing up here should be constants
 
+// Zak says this is fine
+// These are "state variables"
+// We don't need these in functions
+
 let totalScore = 0
 let wordsPlayed = 0
 
@@ -24,20 +28,22 @@ $("#boggle-button").on("click", async function(event) {
 
     $('#word-status').removeClass('invisible')
 
+    // Zak helped me with my toggle problem!! 
+
     if (wordStatus === "ok") {
-      $('#word-status').addClass('text-success')
+      $('#word-status').addClass('text-success').removeClass('text-danger')
       $('#word-status').text(`${guessedWord} is a valid word!`)
       totalScore = totalScore + guessedWord.length
       $('#score').text(" " + totalScore.toString())
     }
     
     if (wordStatus === "not-word") {
-      $('#word-status').addClass('text-danger')
+      $('#word-status').addClass('text-danger').removeClass('text-success')
       $('#word-status').text(`${guessedWord} is not a word!`)
     }
     
     if (wordStatus === "not-on-board") {
-      $('#word-status').addClass('text-danger')
+      $('#word-status').addClass('text-danger').removeClass('text-success')
       $('#word-status').text(`${guessedWord} is not on the board!`)
     }
     
